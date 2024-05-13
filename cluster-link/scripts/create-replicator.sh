@@ -42,3 +42,13 @@ sleep 5
 
 
 docker exec kafka_a kafka-cluster-links --bootstrap-server kafka_b:29093 --create --link demo-link --config bootstrap.servers=kafka_a:29092
+
+docker exec kafka_a kafka-mirrors --bootstrap-server kafka_b:29093 --create --mirror-topic  topic-topic-source --link demo-link 
+
+docker exec kafka_a kafka-mirrors --bootstrap-server kafka_b:29093 --list
+
+docker exec kafka_b kafka-topics --bootstrap-server kafka_b:29093 --list
+
+docker-compose  exec kafka_a kafka-console-producer --broker-list kafka_a:29092 --topic topic-topic-source 
+
+docker-compose exec kafka_b kafka-console-consumer  --bootstrap-server kafka_b:29093 --topic topic-topic-source --from-beginning 
