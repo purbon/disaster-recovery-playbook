@@ -1,0 +1,43 @@
+version: '3'
+services:
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:${TAG}
+    container_name: zookeeper
+    volumes:
+      - "$PWD/zookeeper_a:/etc/kafka"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      KAFKA_OPTS: ' -Djava.security.auth.login.config=/etc/kafka/zookeeper.jaas.config -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider -DrequireClientAuthScheme=sasl'
+
+  kafka_a:
+    build: kafka_a/
+    depends_on:
+      - zookeeper
+    container_name: kafka_a
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_OPTS: '-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf'
+
+
+  zookeeper_b:
+    image: confluentinc/cp-zookeeper:${TAG}
+    container_name: zookeeper_b
+    volumes:
+      - "$PWD/zookeeper_b:/etc/kafka"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      KAFKA_OPTS: ' -Djava.security.auth.login.config=/etc/kafka/zookeeper.jaas.config -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider -DrequireClientAuthScheme=sasl'
+
+  kafka_b:
+    build: kafka_b/
+    depends_on:
+      - zookeeper_b
+    container_name: kafka_b
+    ports:
+      - 9093:9093
+    environment:
+      KAFKA_OPTS: '-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf'
