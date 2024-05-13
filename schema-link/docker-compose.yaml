@@ -1,0 +1,78 @@
+version: '3'
+services:
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:${TAG}
+    container_name: zookeeper
+    volumes:
+      - "$PWD/zookeeper_a:/etc/kafka"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      KAFKA_OPTS: ' -Djava.security.auth.login.config=/etc/kafka/zookeeper.jaas.config -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider -DrequireClientAuthScheme=sasl'
+
+  kafka_a:
+    build: kafka_a/
+    depends_on:
+      - zookeeper
+    container_name: kafka_a
+    ports:
+      - 9092:9092
+      - 8091:8091
+    environment:
+      KAFKA_OPTS: '-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf'
+
+  zookeeper_b:
+    image: confluentinc/cp-zookeeper:${TAG}
+    container_name: zookeeper_b
+    volumes:
+      - "$PWD/zookeeper_b:/etc/kafka"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      KAFKA_OPTS: ' -Djava.security.auth.login.config=/etc/kafka/zookeeper.jaas.config -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider -DrequireClientAuthScheme=sasl'
+
+  kafka_b:
+    build: kafka_b/
+    depends_on:
+      - zookeeper_b
+    container_name: kafka_b
+    ports:
+      - 9093:9093
+      - 8090:8090
+    environment:
+      KAFKA_OPTS: '-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf'
+
+  schema-registry:
+    container_name: schema-registry
+    image: confluentinc/cp-schema-registry:${TAG}
+    depends_on:
+      - zookeeper
+      - kafka_a
+    ports:
+      - 8081:8081
+    volumes:
+      - ./scripts:/scripts
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka_a:29092
+      SCHEMA_REGISTRY_RESOURCE_EXTENSION_CLASS: io.confluent.schema.exporter.SchemaExporterResourceExtension
+      SCHEMA_REGISTRY_KAFKASTORE_UPDATE_HANDLERS: io.confluent.schema.exporter.storage.SchemaExporterUpdateHandler
+      SCHEMA_REGISTRY_PASSWORD_ENCODER_SECRET: foobar
+
+  schema-registry_b:
+    container_name: schema-registry_b
+    image: confluentinc/cp-schema-registry:${TAG}
+    depends_on:
+      - zookeeper
+      - kafka_b
+    ports:
+      - 8082:8081
+    volumes:
+      - ./scripts:/scripts
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka_b:29093
+      SCHEMA_REGISTRY_RESOURCE_EXTENSION_CLASS: io.confluent.schema.exporter.SchemaExporterResourceExtension
+      SCHEMA_REGISTRY_KAFKASTORE_UPDATE_HANDLERS: io.confluent.schema.exporter.storage.SchemaExporterUpdateHandler
+      SCHEMA_REGISTRY_PASSWORD_ENCODER_SECRET: foobar

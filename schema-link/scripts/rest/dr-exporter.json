@@ -1,0 +1,11 @@
+{
+    "name": "test-exporter",
+    "contextType": "CUSTOM",
+    "context": "test-context",
+    "subjects": ["foo"],
+    "config": {
+      "schema.registry.url": "<Physical SR Endpoint>",
+      "basic.auth.credentials.source": "USER_INFO",
+      "basic.auth.user.info": "<SR Credentials>"
+    }
+  }
