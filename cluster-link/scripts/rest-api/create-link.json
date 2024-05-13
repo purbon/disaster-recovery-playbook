@@ -1,0 +1,29 @@
+{
+    "remote_cluster_id": "CCuCEDIrQE6PH3lyV-O-rA",
+    "configs": [
+        {
+            "name": "bootstrap.servers",
+            "value": "kafka_a:29092"
+        },
+        {
+            "name": "acl.sync.enable",
+            "value": "false"
+        },
+        {
+            "name": "consumer.offset.sync.ms",
+            "value": "30000"
+        },
+        {
+            "name": "sasl.mechanism",
+            "value": "PLAIN"
+        },
+        {
+            "name": "sasl.protocol",
+            "value": "SASL_PLAINTEXT"
+        },
+        {
+            "name": "sasl.jaas.config",
+            "value": "sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username='kafka' password='kafka';"
+        }
+    ]
+}

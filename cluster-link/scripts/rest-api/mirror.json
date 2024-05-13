@@ -1,0 +1,5 @@
+{
+    "source_topic_name": "topic-topic-source",
+    "configs": [],
+    "replication_factor": 1
+}
