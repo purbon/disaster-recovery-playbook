@@ -28,8 +28,17 @@ curl -i -X POST -H "Accept:application/json" \
                "provenance.header.enable": "true",
                "topic.whitelist": "topic.topic.source",
                "key.converter": "io.confluent.connect.replicator.util.ByteArrayConverter",
-               "value.converter": "io.confluent.connect.replicator.util.ByteArrayConverter"
+               "value.converter": "io.confluent.connect.replicator.util.ByteArrayConverter",
+               "transforms": "dropPrefix",
+               "transforms.dropPrefix.type": "org.apache.kafka.connect.transforms.RegexRouter",
+               "transforms.dropPrefix.regex": "topic.topic.(.*)",
+               "transforms.dropPrefix.replacement": "$1.in"
       }
     }'
 
 sleep 5
+
+#      ideally include as well:
+#               "topic.config.sync": false,        
+#               "topic.auto.create": false,
+#               "topic.preserve.partitions": false,
