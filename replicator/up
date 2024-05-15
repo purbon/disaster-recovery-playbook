@@ -11,7 +11,9 @@ echo "-> docker-compose exec kafka kafka-console-consumer --bootstrap-server kaf
 
 docker exec kafka_a kafka-topics --bootstrap-server kafka_a:29092 --create --topic __consumer_timestamps --partitions 3 --replication-factor 1
 docker exec kafka_a kafka-topics --bootstrap-server kafka_a:29092 --create --topic topic.topic.source --partitions 3 --replication-factor 1
+
 docker exec kafka_a kafka-topics --bootstrap-server kafka_b:29093 --create --topic source.in --partitions 3 --replication-factor 1
+docker exec kafka_a kafka-topics --bootstrap-server kafka_b:29093 --create --topic topic.topic.source --partitions 3 --replication-factor 1
 
 
 # docker-compose  exec kafka /opt/kafka/bin/kafka-console-producer.sh  --broker-list kafka:9093 --topic topic-topic-source
