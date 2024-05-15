@@ -83,7 +83,7 @@ $ docker-compose  exec kafka_a kafka-console-producer --broker-list kafka_a:2909
 Check the produced messages by using:
 
 ```bash
-$ docker-compose exec kafka_a kafka-console-consumer  --bootstrap-server kafka_a:29092 --topic topic.topic.source--from-beginning                                                                                ‹system: ruby 2.6.10p210›
+$ docker-compose exec kafka_a kafka-console-consumer  --bootstrap-server kafka_a:29092 --topic topic.topic.source --from-beginning                                                                                ‹system: ruby 2.6.10p210›
 This is a message
 That I might not want to write
 message 1
