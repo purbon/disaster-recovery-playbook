@@ -24,7 +24,7 @@ To run this setup successfully you need Docker Desktop, including docker compose
 To start the required infrastructure, run this command:
 
 ```bash
-$ ./up                                                                                                                                                                                                            ‹system: ruby 2.6.10p210›
+$ ./up                                                                                                                                                                                                            
 [+] Building 1.8s (7/7) FINISHED                                                                                                                                                                                       docker:desktop-linux
  => [kafka-connect internal] load build definition from Dockerfile                                                                                                                                                                     0.0s
  => => transferring dockerfile: 450B                                                                                                                                                                                                   0.0s
@@ -56,7 +56,7 @@ Created topic topic-topic-source.
 after that you should have the following containers running:
 
 ```bash
-$ docker ps -a                                                                                                                                                                                                    ‹system: ruby 2.6.10p210›
+$ docker ps -a                                                                                                                                                                                                    
 CONTAINER ID   IMAGE                                    COMMAND                  CREATED              STATUS                                 PORTS                              NAMES
 23c087728084   replicator-kafka-connect                 "/etc/confluent/dock…"   About a minute ago   Up About a minute (health: starting)   0.0.0.0:8083->8083/tcp, 9092/tcp   kafka-connect
 8e2878a0feec   confluentinc/cp-enterprise-kafka:7.6.1   "/etc/confluent/dock…"   About a minute ago   Up About a minute                      0.0.0.0:9092->9092/tcp             kafka_a
@@ -69,7 +69,7 @@ CONTAINER ID   IMAGE                                    COMMAND                 
 ### Produce some messages for the principal cluster
 
 ```bash
-$ docker-compose  exec kafka_a kafka-console-producer --broker-list kafka_a:29092 --topic topic.topic.source                                                                                                     ‹system: ruby 2.6.10p210›
+$ docker-compose  exec kafka_a kafka-console-producer --broker-list kafka_a:29092 --topic topic.topic.source                                                                                                     
 
 >This is a message
 >That I might not want to write
@@ -83,7 +83,7 @@ $ docker-compose  exec kafka_a kafka-console-producer --broker-list kafka_a:2909
 Check the produced messages by using:
 
 ```bash
-$ docker-compose exec kafka_a kafka-console-consumer  --bootstrap-server kafka_a:29092 --topic topic.topic.source --from-beginning                                                                                ‹system: ruby 2.6.10p210›
+$ docker-compose exec kafka_a kafka-console-consumer  --bootstrap-server kafka_a:29092 --topic topic.topic.source --from-beginning                                                                                
 This is a message
 That I might not want to write
 message 1
@@ -95,7 +95,7 @@ message 3
 ### Create the replicator
 
 ```bash
-$ bash scripts/create-replicator.sh                                                                                                                                                                               ‹system: ruby 2.6.10p210›
+$ bash scripts/create-replicator.sh                                                                                                                                                                               
 Creating a Replicator
 HTTP/1.1 201 Created
 Date: Tue, 14 May 2024 07:45:03 GMT
@@ -110,7 +110,7 @@ Server: Jetty(9.4.51.v20230217)
 at this point data is moving to the secondary cluster:
 
 ```bash
-$  docker exec kafka_b kafka-topics --bootstrap-server kafka_b:29093 --list                                                                                                                                       ‹system: ruby 2.6.10p210›
+$  docker exec kafka_b kafka-topics --bootstrap-server kafka_b:29093 --list                                                                                                                                       
 _confluent-command
 topic-topic-source
 ```
@@ -119,7 +119,7 @@ topic-topic-source
 
 ```bash
 ~/work/ps/disaster-recovery-playbook/replicator on  main! ⌚ 9:45:38
-$ docker-compose exec kafka_b kafka-console-consumer  --bootstrap-server kafka_b:29093 --topic topic.topic.source --from-beginning                                                                                ‹system: ruby 2.6.10p210›
+$ docker-compose exec kafka_b kafka-console-consumer  --bootstrap-server kafka_b:29093 --topic topic.topic.source --from-beginning                                                                                
 This is a message
 That I might not want to write
 message 1
@@ -133,7 +133,7 @@ At this point the reader can observe how the message, previously produced in the
 ### Tear down
 
 ```bash
-$ docker-compose down                                                                                                                                                                                             ‹system: ruby 2.6.10p210›
+$ docker-compose down                                                                                                                                                                                             
 [+] Running 6/5
  ✔ Container kafka-connect     Removed                                                                                                                                                                                                 5.4s 
  ✔ Container kafka_b           Removed                                                                                                                                                                                                 0.8s 
@@ -148,7 +148,7 @@ $ docker-compose down                                                           
 ### Setup
 
 ```bash
-$ ./up                                                                                                                                                                                                                             ‹system: ruby 2.6.10p210›
+$ ./up                                                                                                                                                                                                                             
 [+] Building 1.8s (7/7) FINISHED                                                                                                                                                                                                        docker:desktop-linux
  => [kafka-connect internal] load .dockerignore                                                                                                                                                                                                         0.0s
  => => transferring context: 2B                                                                                                                                                                                                                         0.0s
@@ -189,7 +189,7 @@ Created topic source.in.
 ### Produce some messages at source
 
 ```bash
-$ docker-compose  exec kafka_a kafka-console-producer --broker-list kafka_a:29092 --topic topic.topic.source                                                                                                                       ‹system: ruby 2.6.10p210›
+$ docker-compose  exec kafka_a kafka-console-producer --broker-list kafka_a:29092 --topic topic.topic.source                                                                                                                       
 
 >1
 >2
@@ -203,7 +203,7 @@ $ docker-compose  exec kafka_a kafka-console-producer --broker-list kafka_a:2909
 ### Create an instance of the Replicator with the Routing transformation
 
 ```bash
-$ bash scripts/create-replicator-with-routing.sh                                                                                                                                                                                   ‹system: ruby 2.6.10p210›
+$ bash scripts/create-replicator-with-routing.sh                                                                                                                                                                                   
 Creating a Replicator
 HTTP/1.1 201 Created
 Date: Tue, 14 May 2024 13:03:25 GMT
@@ -218,7 +218,7 @@ Server: Jetty(9.4.51.v20230217)
 ### Verify the messages in the target topic
 
 ```bash
-$ docker-compose exec kafka_a kafka-console-consumer  --bootstrap-server kafka_b:29093 --topic source.in --from-beginning                                                                                                          ‹system: ruby 2.6.10p210›
+$ docker-compose exec kafka_a kafka-console-consumer  --bootstrap-server kafka_b:29093 --topic source.in --from-beginning                                                                                                          
 1
 2
 3
