@@ -7,3 +7,4 @@ This playbook has several playgrounds for building a disaster recovery approach 
 * [Confluent Replicator](replicator/)
 * [Cluster link](clusterlink/)
 * [Schema Link](schemalink/)
+* [Confluent Cloud](confluent-cloud)

@@ -1,0 +1,370 @@
+{
+	"info": {
+		"_postman_id": "48265211-7038-4ee9-919a-f1af135d7045",
+		"name": "Confluent Cloud",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20150101"
+	},
+	"item": [
+		{
+			"name": "CreateLink",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "{{secondary-api_secret}}",
+						"username": "{{secondary-api_key}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"source_cluster_id\": \"{{primary-cluster_id}}\",\n  \"configs\": [\n    {\n      \"name\": \"bootstrap.servers\",\n      \"value\": \"{{primary-bootstrap_server}}\"\n    },\n    {\n      \"name\": \"sasl.mechanism\",\n      \"value\": \"PLAIN\"\n    },\n    {\n      \"name\": \"link.mode\",\n      \"value\": \"DESTINATION\"\n    },\n    {\n      \"name\": \"security.protocol\",\n      \"value\": \"SASL_SSL\"\n    },\n    {\n      \"name\": \"sasl.jaas.config\",\n      \"value\": \"org.apache.kafka.common.security.plain.PlainLoginModule required username='{{primary-api_key}}' password='{{primary-api_secret}}';\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{secondary-rest_endpoint}}/kafka/v3/clusters/{{secondary-cluster_id}}/links?link_name={{cl-name}}",
+					"host": [
+						"{{secondary-rest_endpoint}}"
+					],
+					"path": [
+						"kafka",
+						"v3",
+						"clusters",
+						"{{secondary-cluster_id}}",
+						"links"
+					],
+					"query": [
+						{
+							"key": "link_name",
+							"value": "{{cl-name}}",
+							"description": "Link name"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[Bidirectional] CreateLink",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "{{secondary-api_secret}}",
+						"username": "{{secondary-api_key}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"remote_cluster_id\": \"{{primary-cluster_id}}\",\n  \"configs\": [\n    {\n      \"name\": \"bootstrap.servers\",\n      \"value\": \"{{primary-bootstrap_server}}\"\n    },\n    {\n      \"name\": \"link.mode\",\n      \"value\": \"BIDIRECTIONAL\"\n    },\n    {\n      \"name\": \"cluster.link.prefix\",\n      \"value\": \"west.\"\n    },\n    {\n      \"name\": \"sasl.mechanism\",\n      \"value\": \"PLAIN\"\n    },\n    {\n      \"name\": \"security.protocol\",\n      \"value\": \"SASL_SSL\"\n    },\n    {\n      \"name\": \"sasl.jaas.config\",\n      \"value\": \"org.apache.kafka.common.security.plain.PlainLoginModule required username='{{primary-api_key}}' password='{{primary-api_secret}}';\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{secondary-rest_endpoint}}/kafka/v3/clusters/{{secondary-cluster_id}}/links?link_name={{cl-name-bi}}",
+					"host": [
+						"{{secondary-rest_endpoint}}"
+					],
+					"path": [
+						"kafka",
+						"v3",
+						"clusters",
+						"{{secondary-cluster_id}}",
+						"links"
+					],
+					"query": [
+						{
+							"key": "link_name",
+							"value": "{{cl-name-bi}}",
+							"description": "Link name"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateMirrorTopic",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "{{secondary-api_secret}}",
+						"username": "{{secondary-api_key}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"source_topic_name\": \"orders\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{secondary-rest_endpoint}}/kafka/v3/clusters/{{secondary-cluster_id}}/links/{{cl-name}}/mirrors"
+			},
+			"response": []
+		},
+		{
+			"name": "ListMirrotTopics",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "{{secondary-api_secret}}",
+						"username": "{{secondary-api_key}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "{{secondary-rest_endpoint}}/kafka/v3/clusters/{{secondary-cluster_id}}/links/{{cl-name}}/mirrors"
+			},
+			"response": []
+		},
+		{
+			"name": "[Bidirectional] CreateMirrorTopic",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "{{secondary-api_secret}}",
+						"username": "{{secondary-api_key}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"source_topic_name\": \"orders\",\n  \"mirror_topic_name\": \"west.orders\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{secondary-rest_endpoint}}/kafka/v3/clusters/{{secondary-cluster_id}}/links/{{cl-name-bi}}/mirrors"
+			},
+			"response": []
+		},
+		{
+			"name": "Promote-MirrorTopic",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "{{secondary-api_secret}}",
+						"username": "{{secondary-api_key}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"mirror_topic_names\": [\n    \"orders\"\n   ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{secondary-rest_endpoint}}/kafka/v3/clusters/{{secondary-cluster_id}}/links/{{cl-name}}/mirrors:promote"
+			},
+			"response": []
+		},
+		{
+			"name": "Pause-MirrorTopic",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "{{secondary-api_secret}}",
+						"username": "{{secondary-api_key}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"mirror_topic_names\": [\n    \"orders\"\n   ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{secondary-rest_endpoint}}/kafka/v3/clusters/{{secondary-cluster_id}}/links/{{cl-name}}/mirrors:pause"
+			},
+			"response": []
+		},
+		{
+			"name": "Resume-MirrorTopic",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "{{secondary-api_secret}}",
+						"username": "{{secondary-api_key}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"mirror_topic_names\": [\n    \"orders\"\n   ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{secondary-rest_endpoint}}/kafka/v3/clusters/{{secondary-cluster_id}}/links/{{cl-name}}/mirrors:resume"
+			},
+			"response": []
+		},
+		{
+			"name": "[Bidirectional] Reverse-MirrorTopic",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "{{secondary-api_secret}}",
+						"username": "{{secondary-api_key}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"mirror_topic_names\": [\n    \"west.orders\"\n   ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{secondary-rest_endpoint}}/kafka/v3/clusters/{{secondary-cluster_id}}/links/{{cl-name-bi}}/mirrors:reverse-and-start-mirror"
+			},
+			"response": []
+		},
+		{
+			"name": "[Bidirectional] Reverse_Pause-MirrorTopic",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "{{secondary-api_secret}}",
+						"username": "{{secondary-api_key}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"mirror_topic_names\": [\n    \"west.orders\"\n   ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{secondary-rest_endpoint}}/kafka/v3/clusters/{{secondary-cluster_id}}/links/{{cl-name-bi}}/mirrors:reverse-and-pause-mirror"
+			},
+			"response": []
+		},
+		{
+			"name": "GetLinks",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "{{secondary-api_key}}",
+						"password": "{{secondary-api_secret}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "{{secondary-rest_endpoint}}/kafka/v3/clusters/{{secondary-cluster_id}}/links"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "primary-api_key",
+			"value": ""
+		},
+		{
+			"key": "primary-api_secret",
+			"value": ""
+		},
+		{
+			"key": "secondary-api_key",
+			"value": ""
+		},
+		{
+			"key": "secondary-api_secret",
+			"value": ""
+		},
+		{
+			"key": "secondary-cluster_id",
+			"value": ""
+		},
+		{
+			"key": "secondary-rest_endpoint",
+			"value": "https://pkc-yon1op.eu-west-3.aws.confluent.cloud"
+		},
+		{
+			"key": "cl-name",
+			"value": ""
+		},
+		{
+			"key": "primary-cluster_id",
+			"value": ""
+		},
+		{
+			"key": "primary-bootstrap_server",
+			"value": "SASL_SSL://pkc-w7837g.eu-central-1.aws.confluent.cloud:9092"
+		},
+		{
+			"key": "cl-name-bi",
+			"value": "dr-link-bi",
+			"type": "string"
+		}
+	]
+}
