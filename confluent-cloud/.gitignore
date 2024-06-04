@@ -3,3 +3,4 @@
 setup.tfvars
 *.tfstate
 *.tfstate.backup
+notes.md

@@ -1,4 +1,4 @@
-# Confluent Cloud disaster recovery playbook
+# Confluent Cloud disaster recovery playbook (public-to-public)
 
 
 This playbook contains examples on how to use the Cluster Linking in Confluent Cloud for connecting two Kafka(s) and implement a Disaster Recovery solution.
