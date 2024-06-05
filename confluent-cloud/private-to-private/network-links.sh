@@ -47,11 +47,6 @@ confluent network link service create dr-link-service \
 #| Phase                 | READY                                  |
 #+-----------------------+----------------------------------------+
 
-confluent network link service update nls-61er9o \
-  --description "disaster recovery network link service" \
-  --accepted-environments env-m25yq1 \
-  --accepted-networks n-jvxyww,n-jq43wy
-
 
 confluent network link service  list                                                                                                                                                                                                                                   ‹system: ruby 2.6.10p210›
 #      ID     |      Name       | Network  |          Description           | Accepted Environments | Accepted Networks | Phase  
