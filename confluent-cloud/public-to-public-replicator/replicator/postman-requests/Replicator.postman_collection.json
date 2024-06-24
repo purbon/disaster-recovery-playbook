@@ -1,0 +1,64 @@
+{
+	"info": {
+		"_postman_id": "2437ac36-6e03-43fb-86ba-58301b2aa9aa",
+		"name": "Replicator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20150101"
+	},
+	"item": [
+		{
+			"name": "ReplicatorStatusInfo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8083/connectors/kfk-replicator/config"
+			},
+			"response": []
+		},
+		{
+			"name": "ReplicatorStatus",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8083/connectors/kfk-replicator/status"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Connectors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8083/connectors"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Replicator",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:8083/connectors/kfk-replicator"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Replicator",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"name\": \"kfk-replicator\",\n      \"config\": {\n          \"connector.class\":  \"io.confluent.connect.replicator.ReplicatorSourceConnector\",\n          \"dest.kafka.bootstrap.servers\": \"pkc-z9doz.eu-west-1.aws.confluent.cloud:9092\",\n          \"dest.kafka.sasl.jaas.config\": \"org.apache.kafka.common.security.plain.PlainLoginModule required username=\\\"<api-key>\\\" password=\\\"<api-secret>\\\";\",\n          \"dest.kafka.sasl.mechanism\": \"PLAIN\",\n          \"dest.kafka.security.protocol\": \"SASL_SSL\",\n          \"dest.kafka.session.timeout.ms\": \"45000\",\n          \"src.consumer.group.id\": \"replicator3\",\n          \"src.kafka.bootstrap.servers\": \"pkc-7xoy1.eu-central-1.aws.confluent.cloud:9092\",\n          \"src.kafka.security.protocol\": \"SASL_SSL\",\n          \"src.kafka.sasl.mechanism\": \"PLAIN\",\n          \"src.kafka.sasl.jaas.config\": \"org.apache.kafka.common.security.plain.PlainLoginModule required username=\\\"<api-key>\\\" password=\\\"<api-secret>\\\";\",\n          \"src.kafka.session.timeout.ms\": \"45000\",\n          \"tasks.max\": \"1\",\n          \"topic.config.sync\": \"false\",\n          \"topic.auto.create\": \"false\",\n          \"offset.translator.tasks.max\": \"0\",\n          \"topic.whitelist\": \"orders\",\n          \"key.converter\": \"io.confluent.connect.replicator.util.ByteArrayConverter\",\n          \"value.converter\": \"io.confluent.connect.replicator.util.ByteArrayConverter\",\n          \"producer.override.bootstrap.servers\": \"pkc-z9doz.eu-west-1.aws.confluent.cloud:9092\",\n          \"producer.override.sasl.jaas.config\": \"org.apache.kafka.common.security.plain.PlainLoginModule required username=\\\"<api-key>\\\" password=\\\"<api-secret>\\\";\",\n          \"producer.override.sasl.mechanism\": \"PLAIN\",\n          \"producer.override.security.protocol\": \"SASL_SSL\",\n          \"producer.override.sasl.login.callback.handler.class\": \"org.apache.kafka.common.security.authenticator.AbstractLogin$DefaultLoginCallbackHandler\",\n          \"confluent.topic.bootstrap.servers\": \"pkc-7xoy1.eu-central-1.aws.confluent.cloud:9092\",\n          \"confluent.topic.security.protocol\": \"SASL_SSL\",\n          \"confluent.topic.sasl.mechanism\": \"PLAIN\",\n          \"confluent.topic.sasl.jaas.config\": \"org.apache.kafka.common.security.plain.PlainLoginModule required username=\\\"<api-key>\\\" password=\\\"<api-secret>\\\";\",\n          \"confluent.topic.session.timeout.ms\": \"45000\",\n          \"confluent.topic.replication.factor\": \"3\",\n          \"confluent.license\": \"<confuent-license>\" \n      }\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8083/connectors/"
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,38 @@
+version: '3'
+services:
+
+  kafka-connect:
+    build:
+      context: kafka-connect/
+      dockerfile: Dockerfile
+    container_name: kafka-connect
+    ports:
+      - 8083:8083
+    environment:
+      CUB_CLASSPATH: '/usr/share/java/confluent-security/connect/*:/usr/share/java/kafka/*:/usr/share/java/cp-base-new/*'
+      CLASSPATH: "/usr/share/java/monitoring-interceptors/*"
+      CONNECT_BOOTSTRAP_SERVERS: "pkc-7xoy1.eu-central-1.aws.confluent.cloud:9092"
+      CONNECT_SECURITY_PROTOCOL: "SASL_SSL"
+      CONNECT_SASL_JAAS_CONFIG: "org.apache.kafka.common.security.plain.PlainLoginModule required username='FZ4NVH3ZDBPPQDQF' password='/jtg9fQ854usKpTM65IT/hOdXs+MjQwsrzQUoMVunCIFxEuiSYM4u4Hu1vsgSWS3';"
+      CONNECT_SASL_MECHANISM: "PLAIN"
+      CONNECT_LISTENERS: http://0.0.0.0:8083
+      CONNECT_GROUP_ID: kafka-connect
+      CONNECT_CONFIG_STORAGE_TOPIC: kafka-connect-configs
+      CONNECT_OFFSET_STORAGE_TOPIC: kafka-connect-offsets
+      CONNECT_STATUS_STORAGE_TOPIC: kafka-connect-status
+      CONNECT_KEY_CONVERTER: io.confluent.connect.replicator.util.ByteArrayConverter
+      CONNECT_VALUE_CONVERTER: io.confluent.connect.replicator.util.ByteArrayConverter
+      CONNECT_LOG4J_ROOT_LOGLEVEL: "INFO"
+      CONNECT_LOG4J_LOGGERS: "org.apache.kafka.connect.runtime.rest=WARN,org.reflections=ERROR,io.confluent.connect.replicator=INFO"
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "3"
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: "3"
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: "3"
+      CONNECT_REST_ADVERTISED_HOST_NAME: "localhost"
+      CONNECT_PLUGIN_PATH: "usr/share/java,/usr/share/confluent-hub-components"
+      # connector.client.config.override.policy=Principal
+      CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY: "All"
+    volumes:
+       - $PWD/scripts:/scripts
+    #   - $PWD/repli:/usr/share/java/kafka-connect-replicator/
+    #   - $PWD/connect-plugins:/usr/share/confluent-hub-components
+       - $PWD/jars:/usr/share/confluent-hub-components/confluentinc-kafka-connect-jdbc/jars

@@ -1,0 +1,12 @@
+[Confluent]
+name=Confluent repository
+baseurl=https://packages.confluent.io/rpm/7.5
+gpgcheck=1
+gpgkey=https://packages.confluent.io/rpm/7.5/archive.key
+enabled=1
+
+name=Confluent Clients repository
+baseurl=https://packages.confluent.io/clients/rpm/centos/8/x86_64
+gpgcheck=1
+gpgkey=https://packages.confluent.io/clients/rpm/archive.key
+enabled=1
