@@ -46,15 +46,6 @@ confluent kafka acl create --allow --service-account $SERVICE_ACCOUNT_ID --opera
 confluent kafka acl create --allow --service-account $SERVICE_ACCOUNT_ID --operations ALTER-CONFIGS --consumer-group "*"
 
 
-# ACLS for _consumer_timestamps
-
-confluent kafka acl create --allow --service-account $SERVICE_ACCOUNT_ID --operations CREATE --topic __consumer_timestamps
-confluent kafka acl create --allow --service-account $SERVICE_ACCOUNT_ID --operations WRITE --topic __consumer_timestamps
-confluent kafka acl create --allow --service-account $SERVICE_ACCOUNT_ID --operations READ --topic __consumer_timestamps
-confluent kafka acl create --allow --service-account $SERVICE_ACCOUNT_ID --operations DESCRIBE --topic __consumer_timestamps
-confluent kafka acl create --allow --service-account $SERVICE_ACCOUNT_ID --operations DESCRIBE-CONFIGS --topic __consumer_timestamps
-confluent kafka acl create --allow --service-account $SERVICE_ACCOUNT_ID --operations ALTER-CONFIGS --topic __consumer_timestamps
-
 # write to target cluster
 confluent kafka cluster use $TARGET_CLUSTER_ID
 
