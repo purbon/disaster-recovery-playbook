@@ -16,6 +16,6 @@ docker exec kafka_a kafka-topics --bootstrap-server kafka_b:29093 --create --top
 docker exec kafka_a kafka-topics --bootstrap-server kafka_b:29093 --create --topic topic.topic.source --partitions 3 --replication-factor 1
 
 
-# docker-compose  exec kafka /opt/kafka/bin/kafka-console-producer.sh  --broker-list kafka:9093 --topic topic-topic-source
+# docker-compose  exec kafka_a /opt/kafka/bin/kafka-console-producer.sh  --broker-list kafka_a:29092 --topic topic-topic-source
 
 # docker exec kafka_b kafka-topics --bootstrap-server kafka_b:29093 --list

@@ -17,7 +17,7 @@ docker compose exec broker-west-1 kafka-topics  --create \
 	--topic multi-region-sync \
 	--partitions 1 \
 	--replica-placement /etc/kafka/demo/placement-multi-region-sync.json \
-	--config min.insync.replicas=1
+	--config min.insync.replicas=3
 
 
 docker compose exec broker-west-1 kafka-topics  --create \
